@@ -1262,167 +1262,7 @@ class="hidden mt-8 space-y-7">
   </footer>
 
   <!-- SCRIPT -->
-
-
- <script>
-
-function abrirPagina(id){
-
-  document.querySelectorAll(".page")
-  .forEach(pagina => {
-    pagina.classList.remove("active");
-  });
-
-  document.getElementById(id)
-  .classList.add("active");
-
-}
-
-/* =========================
-   PLAYER PROFILE
-========================= */
-
-let skillsSelecionadas = [];
-
-function toggleSkill(botao){
-
-  botao.classList.toggle("bg-violet-400");
-  botao.classList.toggle("text-black");
-
-  const texto = botao.innerText;
-
-  if(skillsSelecionadas.includes(texto)){
-
-    skillsSelecionadas =
-    skillsSelecionadas.filter(skill => skill !== texto);
-
-  }else{
-
-    skillsSelecionadas.push(texto);
-
-  }
-
-}
-
-function gerarPerfil(){
-
-  const nick =
-  document.getElementById("nick").value;
-
-  const funcao =
-  document.getElementById("funcao").value;
-
-  const nivel =
-  document.getElementById("nivel").value;
-
-  let pontos = 50;
-
-  if(skillsSelecionadas.includes("Boa Aim"))
-  pontos += 10;
-
-  if(skillsSelecionadas.includes("Boa comunicação"))
-  pontos += 10;
-
-  if(skillsSelecionadas.includes("Mechanics fortes"))
-  pontos += 15;
-
-  if(skillsSelecionadas.includes("Bom game sense"))
-  pontos += 15;
-
-  if(skillsSelecionadas.includes("Nervoso em campeonato"))
-  pontos -= 10;
-
-  if(skillsSelecionadas.includes("Erra rotação"))
-  pontos -= 10;
-
-  if(skillsSelecionadas.includes("Sem confiança"))
-  pontos -= 10;
-
-  if(skillsSelecionadas.includes("Perde muitas fights"))
-  pontos -= 15;
-
-  pontos = Math.max(0, Math.min(100, pontos));
-
-  document.getElementById("barra")
-  .style.width = pontos + "%";
-
-  document.getElementById("evolucaoTexto")
-  .innerText = pontos + "%";
-
-  document.getElementById("consistencia")
-  .innerText = pontos + "%";
-
-  document.getElementById("potencial")
-  .innerText =
-  Math.min(pontos + 10,100) + "%";
-
-  let texto = `
-
-  <h3 class="text-3xl font-black mb-5">
-    ${nick || "Player"} • ${funcao}
-  </h3>
-
-  <p class="mb-4">
-    Perfil identificado como
-    <span class="text-violet-300">
-    ${nivel}
-    </span>
-    no competitivo.
-  </p>
-
-  `;
-
-  if(pontos >= 80){
-
-    texto += `
-    Seu perfil apresenta
-    excelente potencial competitivo.
-
-    Sua gameplay possui fundamentos fortes,
-    boa tomada de decisão
-    e capacidade de evolução rápida.
-    `;
-
-  }
-
-  else if(pontos >= 60){
-
-    texto += `
-    Seu perfil possui boa base competitiva,
-    porém ainda existem inconsistências
-    que limitam sua performance.
-
-    Foque em:
-    comunicação,
-    confiança
-    e rotina diária.
-    `;
-
-  }
-
-  else{
-
-    texto += `
-    Sua gameplay ainda apresenta
-    inconsistências importantes.
-
-    O principal foco agora
-    deve ser:
-    mechanics,
-    controle emocional
-    e disciplina.
-    `;
-
-  }
-
-  document.getElementById("analise")
-  .innerHTML = texto;
-
-}
-
-/* =========================
-   IA COACH
-========================= */
+</script>
 
 function gerarRotina(){
 
@@ -1444,79 +1284,324 @@ function gerarRotina(){
   let analise = "";
   let rotina = "";
   let foco = "";
+  let mental = "";
+  let mapa = "";
 
-  /* ENDGAME */
+  /* =========================
+     END GAME
+  ========================= */
 
   if(
     texto.includes("endgame") ||
+    texto.includes("end game") ||
     texto.includes("moving")
   ){
 
     titulo = "Dificuldade em End Game";
 
     analise = `
-    Sua gameplay apresenta dificuldade
-    em moving zones,
-    tomada de decisão rápida
-    e controle emocional.
 
-    O sistema identificou
-    erros em:
-    layer control,
-    refresh timing
-    e posicionamento.
+    Sua gameplay apresenta dificuldade
+    em momentos de alta pressão,
+    principalmente durante moving zones
+    e decisões rápidas no final da partida.
+
+    A IA identificou que seu problema
+    não está apenas em mechanics,
+    mas principalmente em:
+
+    • leitura de lobby
+    • escolha de layer
+    • timing de rotação
+    • controle emocional
+    • pressão excessiva em fights
+
+    Você provavelmente entra em moving zone
+    sem planejamento
+    ou demora para tomar decisões.
+
+    Isso faz você perder posicionamento,
+    gastar recursos cedo
+    e entrar em fights ruins.
+
     `;
 
     foco = `
-    • Layer control<br>
-    • Moving zones<br>
-    • Refresh timing<br>
-    • Controle emocional
+
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Foco principal
+      </h3>
+
+      <div class="space-y-4 text-gray-300 leading-relaxed">
+
+        <p>
+        • Melhorar leitura de movimentação
+        em zonas finais
+        </p>
+
+        <p>
+        • Aprender troca de layers
+        sem perder controle
+        </p>
+
+        <p>
+        • Controlar ansiedade
+        em lobby stacked
+        </p>
+
+        <p>
+        • Melhorar escolhas de refresh
+        </p>
+
+      </div>
+
+    </div>
+
     `;
 
     rotina = `
-    • 45min realistic end game<br>
-    • Revisar moving zones FNCS<br>
-    • Treinar tarp movement<br>
-    • Jogar scrims focando sobrevivência
+
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Rotina personalizada
+      </h3>
+
+      <div class="space-y-5 text-gray-300 leading-relaxed">
+
+        <p>
+        • 45min de realistic end game
+        </p>
+
+        <p>
+        • Assistir VODs FNCS focando
+        apenas em moving zones
+        </p>
+
+        <p>
+        • Jogar scrims priorizando
+        sobrevivência e posicionamento
+        </p>
+
+        <p>
+        • Treinar tarp control
+        e movimentação sem panic build
+        </p>
+
+        <p>
+        • Revisar mortes em endgame
+        após cada sessão
+        </p>
+
+      </div>
+
+    </div>
+
+    `;
+
+    mental = `
+
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Mentalidade competitiva
+      </h3>
+
+      <p class="text-gray-300 leading-relaxed">
+
+      Seu maior inimigo no endgame
+      provavelmente não é aim.
+
+      É velocidade emocional.
+
+      Quanto mais pressão você sente,
+      mais rápido tenta resolver tudo.
+
+      Players de alto nível
+      jogam moving zone com calma,
+      leitura
+      e planejamento.
+
+      Você precisa desacelerar mentalmente
+      durante caos competitivo.
+
+      </p>
+
+    </div>
+
+    `;
+
+    mapa = `
+    
+    <div class="glass rounded-3xl overflow-hidden">
+
+      <img
+      src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1400&auto=format&fit=crop"
+      class="w-full h-64 object-cover"/>
+
+      <div class="p-6">
+
+        <h3 class="text-2xl font-black mb-4">
+          Controle de moving zone
+        </h3>
+
+        <p class="text-gray-300 leading-relaxed">
+
+        Players fortes em end game
+        controlam posicionamento,
+        layers
+        e ritmo da movimentação.
+
+        O objetivo não é só sobreviver,
+        mas sobreviver com controle.
+
+        </p>
+
+      </div>
+
+    </div>
+
     `;
   }
 
-  /* AIM */
+  /* =========================
+     AIM
+  ========================= */
 
   else if(
     texto.includes("aim") ||
+    texto.includes("tiro") ||
     texto.includes("mira")
   ){
 
     titulo = "Problema de Aim";
 
     analise = `
+
     Sua gameplay apresenta inconsistência
-    em precisão
-    e crosshair placement.
+    em precisão,
+    controle de crosshair
+    e confiança em fights.
+
+    Isso geralmente acontece
+    quando o player:
+
+    • movimenta demais a mira
+    • joga acelerado
+    • não posiciona bem o crosshair
+    • reage atrasado em peaks
 
     Seu problema parece estar ligado
-    ao controle da mira
-    sob pressão.
+    mais em controle
+    do que velocidade.
+
     `;
 
     foco = `
-    • Tracking<br>
-    • Flicks<br>
-    • Shotgun precision<br>
-    • Crosshair placement
+
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        O que melhorar
+      </h3>
+
+      <div class="space-y-4 text-gray-300">
+
+        <p>• Crosshair placement</p>
+        <p>• Tracking de movimentação</p>
+        <p>• Controle de shotgun</p>
+        <p>• Precisão sob pressão</p>
+
+      </div>
+
+    </div>
+
     `;
 
     rotina = `
-    • 1h aim training<br>
-    • Tracking maps<br>
-    • Shotgun flicks<br>
-    • Realistics focando calma
+
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Rotina personalizada
+      </h3>
+
+      <div class="space-y-4 text-gray-300">
+
+        <p>• 1h de aim training diário</p>
+        <p>• Treino de shotgun flicks</p>
+        <p>• Realistics focando calma</p>
+        <p>• Tracking maps</p>
+        <p>• Revisar fights perdidas</p>
+
+      </div>
+
+    </div>
+
+    `;
+
+    mental = `
+
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Mentalidade
+      </h3>
+
+      <p class="text-gray-300 leading-relaxed">
+
+      Players com aim inconsistente
+      normalmente tentam acertar rápido demais.
+
+      O segredo da precisão
+      é controle.
+
+      Mire primeiro.
+      Atire depois.
+
+      </p>
+
+    </div>
+
+    `;
+
+    mapa = `
+    
+    <div class="glass rounded-3xl overflow-hidden">
+
+      <img
+      src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1400&auto=format&fit=crop"
+      class="w-full h-64 object-cover"/>
+
+      <div class="p-6">
+
+        <h3 class="text-2xl font-black mb-4">
+          Precisão competitiva
+        </h3>
+
+        <p class="text-gray-300 leading-relaxed">
+
+        Aim forte
+        não é velocidade aleatória.
+
+        É precisão,
+        leitura
+        e controle de movimentação.
+
+        </p>
+
+      </div>
+
+    </div>
+
     `;
   }
 
-  /* IGL */
+  /* =========================
+     IGL
+  ========================= */
 
   else if(
     texto.includes("igl") ||
@@ -1526,76 +1611,237 @@ function gerarRotina(){
     titulo = "Desenvolvimento de IGL";
 
     analise = `
+
     Sua gameplay mostra dificuldade
     em liderança competitiva
-    e tomada de decisão rápida.
+    durante momentos de pressão.
 
-    O sistema identificou:
-    excesso de pressão,
-    demora em calls
-    e desorganização em rotações.
+    Você provavelmente sabe o que fazer,
+    mas perde velocidade de decisão
+    quando o lobby acelera.
+
+    O principal erro de muitos IGLs
+    é tentar pensar demais
+    durante o caos.
+
+    IGL forte precisa:
+    decidir rápido,
+    manter o time organizado
+    e transmitir confiança.
+
     `;
 
     foco = `
-    • Calls rápidas<br>
-    • Comunicação limpa<br>
-    • Leitura de lobby<br>
-    • Rotação inteligente
+
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Áreas prioritárias
+      </h3>
+
+      <div class="space-y-4 text-gray-300">
+
+        <p>• Calls rápidas</p>
+        <p>• Controle emocional</p>
+        <p>• Leitura de lobby</p>
+        <p>• Organização de rotações</p>
+
+      </div>
+
+    </div>
+
     `;
 
     rotina = `
-    • Revisar IGLs FNCS<br>
-    • Jogar scrims focando calls<br>
-    • Treinar macro game<br>
-    • Criar planos de rotação
+
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Rotina personalizada
+      </h3>
+
+      <div class="space-y-4 text-gray-300">
+
+        <p>• Revisar VODs de IGLs FNCS</p>
+        <p>• Jogar scrims focando comunicação</p>
+        <p>• Treinar macro game</p>
+        <p>• Criar planos de rotação</p>
+        <p>• Trabalhar calma em moving zone</p>
+
+      </div>
+
+    </div>
+
+    `;
+
+    mental = `
+
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Mentalidade de liderança
+      </h3>
+
+      <p class="text-gray-300 leading-relaxed">
+
+      O time sente
+      a energia do IGL.
+
+      Se você entra em caos,
+      o lobby inteiro do seu time
+      desmorona.
+
+      Liderança competitiva
+      é transmitir segurança
+      mesmo sob pressão.
+
+      </p>
+
+    </div>
+
+    `;
+
+    mapa = `
+    
+    <div class="glass rounded-3xl overflow-hidden">
+
+      <img
+      src="https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=1400&auto=format&fit=crop"
+      class="w-full h-64 object-cover"/>
+
+      <div class="p-6">
+
+        <h3 class="text-2xl font-black mb-4">
+          Liderança competitiva
+        </h3>
+
+        <p class="text-gray-300 leading-relaxed">
+
+        IGLs fortes
+        controlam o ritmo da partida
+        mesmo em lobby caótico.
+
+        Comunicação limpa
+        vence jogos.
+
+        </p>
+
+      </div>
+
+    </div>
+
     `;
   }
 
-  /* PADRÃO */
+  /* =========================
+     PADRÃO
+  ========================= */
 
   else{
 
-    titulo = "Análise Competitiva";
+    titulo = "Análise competitiva";
 
     analise = `
-    A IA identificou inconsistências gerais
+
+    A IA identificou
+    inconsistências gerais
     na sua gameplay competitiva.
 
     Seu foco principal agora
-    deve ser criar consistência
-    e melhorar tomada de decisão.
+    deve ser criar consistência,
+    melhorar tomada de decisão
+    e aumentar disciplina de treino.
+
+    Players medianos
+    apenas jogam partidas.
+
+    Players competitivos
+    treinam com objetivo.
+
     `;
 
     foco = `
-    • Mechanics<br>
-    • Aim<br>
-    • Game sense<br>
-    • Consistência diária
+    
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Foco principal
+      </h3>
+
+      <div class="space-y-4 text-gray-300">
+
+        <p>• Mechanics</p>
+        <p>• Game sense</p>
+        <p>• Controle emocional</p>
+        <p>• Consistência diária</p>
+
+      </div>
+
+    </div>
+
     `;
 
     rotina = `
-    • Aim training<br>
-    • Mechanics<br>
-    • Scrims<br>
-    • Revisão de gameplay
+    
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Rotina recomendada
+      </h3>
+
+      <div class="space-y-4 text-gray-300">
+
+        <p>• 40min aim training</p>
+        <p>• 30min mechanics</p>
+        <p>• 1h scrims</p>
+        <p>• Revisão de gameplay</p>
+
+      </div>
+
+    </div>
+
     `;
+
+    mental = `
+    
+    <div class="glass rounded-3xl p-6">
+
+      <h3 class="text-2xl font-black mb-5">
+        Mentalidade
+      </h3>
+
+      <p class="text-gray-300 leading-relaxed">
+
+      Evolução competitiva
+      não acontece em dias.
+
+      Consistência
+      sempre vence talento desorganizado.
+
+      </p>
+
+    </div>
+
+    `;
+
+    mapa = "";
   }
 
   resultado.innerHTML = `
 
-  <div class="space-y-6">
+  <div class="space-y-7">
 
-    <div class="glass rounded-3xl p-7">
+    <div>
 
       <p class="text-violet-300 text-sm mb-2">
         análise concluída
       </p>
 
-      <h2 class="text-5xl font-black mb-4">
+      <h2 class="text-5xl font-black">
         ${titulo}
       </h2>
 
-      <p class="text-gray-400">
+      <p class="text-gray-400 mt-3">
         ${funcao} • ${nivel}
       </p>
 
@@ -1613,29 +1859,13 @@ function gerarRotina(){
 
     </div>
 
-    <div class="glass rounded-3xl p-7">
+    ${foco}
 
-      <h3 class="text-2xl font-black mb-5">
-        Áreas prioritárias
-      </h3>
+    ${rotina}
 
-      <div class="text-gray-300 leading-relaxed">
-        ${foco}
-      </div>
+    ${mental}
 
-    </div>
-
-    <div class="glass rounded-3xl p-7">
-
-      <h3 class="text-2xl font-black mb-5">
-        Rotina personalizada
-      </h3>
-
-      <div class="text-gray-300 leading-relaxed">
-        ${rotina}
-      </div>
-
-    </div>
+    ${mapa}
 
   </div>
 
@@ -1644,6 +1874,8 @@ function gerarRotina(){
   resultado.classList.remove("hidden");
 
 }
+
+
 
 </script>
  
