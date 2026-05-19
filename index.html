@@ -1,1608 +1,982 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>MAJOR • Fortnite Performance</title>
+<title>MAJOR • Fortnite Competitive System</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, sans-serif;
-      scroll-behavior:smooth;
-    }
+<style>
 
-    body{
-      background:
-      radial-gradient(circle at top left,#7b5cff22,transparent 30%),
-      radial-gradient(circle at bottom right,#ffffff10,transparent 25%),
-      linear-gradient(135deg,#050507,#151019,#33263d,#6f5979);
-      color:white;
-      overflow-x:hidden;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+scroll-behavior:smooth;
+}
 
-    /* FUNDO ANIMADO */
+body{
+background:#050507;
+color:white;
+overflow-x:hidden;
+}
 
-    .blur1{
-      position:fixed;
-      width:500px;
-      height:500px;
-      background:#9f7aea25;
-      filter:blur(120px);
-      top:-120px;
-      left:-120px;
-      animation:float 8s infinite ease-in-out;
-      z-index:0;
-    }
+/* =====================
+FUNDO MELHORADO
+===================== */
 
-    .blur2{
-      position:fixed;
-      width:450px;
-      height:450px;
-      background:#ffffff10;
-      filter:blur(120px);
-      bottom:-120px;
-      right:-120px;
-      animation:float2 10s infinite ease-in-out;
-      z-index:0;
-    }
+.bg{
+position:fixed;
+inset:0;
+z-index:-10;
+overflow:hidden;
+background:
+radial-gradient(circle at 10% 20%, rgba(139,92,246,.25), transparent 25%),
+radial-gradient(circle at 80% 0%, rgba(59,130,246,.20), transparent 25%),
+radial-gradient(circle at 90% 90%, rgba(168,85,247,.15), transparent 30%),
+linear-gradient(135deg,#050507,#0f0f17,#171327,#0d0d13);
+}
 
-    @keyframes float{
-      0%{transform:translateY(0px);}
-      50%{transform:translateY(40px);}
-      100%{transform:translateY(0px);}
-    }
+.grid-bg{
+position:absolute;
+width:100%;
+height:100%;
+background-image:
+linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+background-size:40px 40px;
+mask-image:linear-gradient(to bottom, transparent, black, transparent);
+}
 
-    @keyframes float2{
-      0%{transform:translateY(0px);}
-      50%{transform:translateY(-40px);}
-      100%{transform:translateY(0px);}
-    }
+.orb{
+position:absolute;
+border-radius:999px;
+filter:blur(90px);
+animation:float 8s infinite ease-in-out;
+}
 
-    .glass{
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.08);
-      backdrop-filter:blur(18px);
-    }
+.orb1{
+width:400px;
+height:400px;
+background:#8b5cf6;
+top:-100px;
+left:-100px;
+opacity:.22;
+}
 
-    .glow{
-      box-shadow:
-      0 0 60px rgba(168,85,247,.15),
-      inset 0 0 25px rgba(255,255,255,.02);
-    }
+.orb2{
+width:350px;
+height:350px;
+background:#3b82f6;
+bottom:-120px;
+right:-120px;
+opacity:.16;
+animation-delay:2s;
+}
 
-    .btn{
-      transition:.25s;
-    }
+.orb3{
+width:300px;
+height:300px;
+background:#ec4899;
+top:50%;
+left:60%;
+opacity:.10;
+animation-delay:4s;
+}
 
-    .btn:hover{
-      transform:translateY(-4px);
-      box-shadow:0 0 30px rgba(192,132,252,.35);
-    }
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(40px);}
+100%{transform:translateY(0px);}
+}
 
-    textarea{
-      resize:none;
-    }
+/* =====================
+COMPONENTES
+===================== */
 
-    .page{
-      display:none;
-    }
+.glass{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(18px);
+}
 
-    .active{
-      display:block;
-    }
+.glow{
+box-shadow:
+0 0 80px rgba(139,92,246,.12),
+inset 0 0 20px rgba(255,255,255,.02);
+}
 
-  </style>
+.page{
+display:none;
+}
+
+.active{
+display:block;
+}
+
+.btn{
+transition:.25s;
+}
+
+.btn:hover{
+transform:translateY(-4px);
+box-shadow:0 0 35px rgba(139,92,246,.35);
+}
+
+.skill-active{
+background:#a855f7 !important;
+color:black !important;
+border-color:#c084fc !important;
+}
+
+.rank-card{
+transition:.25s;
+cursor:pointer;
+}
+
+.rank-card:hover{
+transform:translateY(-5px);
+border-color:#a855f7;
+}
+
+input,select,textarea{
+color:white;
+}
+
+input::placeholder,
+textarea::placeholder{
+color:#999;
+}
+
+::-webkit-scrollbar{
+width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#8b5cf6;
+border-radius:999px;
+}
+
+</style>
 </head>
 
 <body>
 
-  <!-- BG -->
-  <div class="blur1"></div>
-  <div class="blur2"></div>
+<!-- FUNDO -->
 
-  <!-- NAVBAR -->
-  <nav class="w-full px-8 py-6 flex items-center justify-between relative z-20">
+<div class="bg">
+<div class="grid-bg"></div>
 
-    <div class="flex items-center gap-4">
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+</div>
 
-      <img src="logo.png" class="w-12 h-12 object-contain"/>
+<!-- NAVBAR -->
 
-      <h1 class="text-3xl font-black tracking-widest">
-        MAJOR
-      </h1>
+<nav class="w-full px-8 py-6 flex items-center justify-between relative z-50">
 
-    </div>
+<div class="flex items-center gap-4">
 
-    <div class="flex gap-3">
+<div class="w-14 h-14 rounded-3xl bg-violet-500 flex items-center justify-center text-2xl font-black">
+M
+</div>
 
-      <button onclick="abrirPagina('home')"
-      class="glass px-5 py-3 rounded-2xl text-sm hover:bg-white/10 transition">
-        Início
-      </button>
+<div>
+<h1 class="text-3xl font-black tracking-widest">
+MAJOR
+</h1>
 
-      <button onclick="abrirPagina('ia')"
-      class="glass px-5 py-3 rounded-2xl text-sm hover:bg-white/10 transition">
-        IA Coach
-      </button>
+<p class="text-gray-400 text-sm">
+Fortnite Competitive System
+</p>
+</div>
 
-      <button onclick="abrirPagina('treino')"
-      class="glass px-5 py-3 rounded-2xl text-sm hover:bg-white/10 transition">
-        Treino Diário
-      </button>
+</div>
 
-      <button onclick="abrirPagina('perfil')"
-      class="glass px-5 py-3 rounded-2xl text-sm hover:bg-white/10 transition">
-        Player Profile
-      </button>
+<div class="flex gap-3 flex-wrap">
 
-    </div>
+<button onclick="abrirPagina('home')"
+class="glass px-5 py-3 rounded-2xl hover:bg-white/10">
+Home
+</button>
 
-  </nav>
+<button onclick="abrirPagina('ia')"
+class="glass px-5 py-3 rounded-2xl hover:bg-white/10">
+IA Coach
+</button>
 
-  <!-- ================= HOME ================= -->
+<button onclick="abrirPagina('perfil')"
+class="glass px-5 py-3 rounded-2xl hover:bg-white/10">
+Perfil
+</button>
 
-  <section id="home" class="page active relative z-10">
+<button onclick="abrirPagina('treino')"
+class="glass px-5 py-3 rounded-2xl hover:bg-white/10">
+Treinos
+</button>
 
-    <div class="max-w-7xl mx-auto px-6 py-24">
+</div>
 
-      <div class="grid lg:grid-cols-2 gap-16 items-center">
+</nav>
 
-        <!-- TEXTO -->
-        <div>
+<!-- HOME -->
 
-          <div class="glass inline-flex px-5 py-2 rounded-full text-violet-200 text-sm mb-6">
-            Plataforma competitiva Fortnite
-          </div>
+<section id="home" class="page active relative z-10">
 
-          <h1 class="text-6xl md:text-7xl font-black leading-[1]">
+<div class="max-w-7xl mx-auto px-6 py-24">
 
-            Evolua sua
-            gameplay com
-            inteligência.
+<div class="grid lg:grid-cols-2 gap-16 items-center">
 
-          </h1>
+<div>
 
-          <p class="text-gray-300 text-lg leading-relaxed mt-8 max-w-xl">
+<div class="glass inline-flex px-5 py-2 rounded-full text-violet-200 text-sm mb-6">
+🔥 Plataforma competitiva Fortnite
+</div>
 
-            A Major foi criada para players
-            competitivos que querem sair do básico
-            e evoluir de verdade.
+<h1 class="text-6xl md:text-7xl font-black leading-[1]">
 
-            Receba análises inteligentes,
-            rotinas automáticas,
-            treinos diários
-            e acompanhamento completo
-            da sua evolução competitiva.
+Transforme
+sua gameplay
+em nível FNCS.
 
-          </p>
+</h1>
 
-          <div class="flex gap-4 mt-10">
+<p class="text-gray-300 text-lg leading-relaxed mt-8 max-w-xl">
 
-            <button onclick="abrirPagina('ia')"
-            class="btn bg-violet-400 text-black px-8 py-5 rounded-2xl font-black">
+A MAJOR usa inteligência artificial
+para analisar sua gameplay,
+identificar erros
+e criar treinos personalizados
+para acelerar sua evolução competitiva.
 
-              COMEÇAR AGORA
+</p>
 
-            </button>
+<div class="flex gap-4 mt-10 flex-wrap">
 
-            <button class="btn glass px-8 py-5 rounded-2xl">
+<button onclick="abrirPagina('ia')"
+class="btn bg-violet-500 text-black px-8 py-5 rounded-2xl font-black">
 
-              Entrar no Discord
+COMEÇAR AGORA
 
-            </button>
+</button>
 
-          </div>
+<button class="btn glass px-8 py-5 rounded-2xl">
 
-        </div>
+ENTRAR NO DISCORD
 
-        <!-- CARD -->
-        <div class="glass glow rounded-[40px] p-8">
+</button>
 
-          <h2 class="text-3xl font-black mb-8">
-            O que a Major oferece
-          </h2>
+</div>
 
-          <div class="space-y-5">
+<!-- STATS -->
 
-            <div class="glass rounded-2xl p-5">
-              <h3 class="font-bold text-xl mb-2">
-                IA Competitiva
-              </h3>
+<div class="grid grid-cols-3 gap-4 mt-12">
 
-              <p class="text-gray-300">
-                Descubra seus erros,
-                pontos fracos
-                e receba planos personalizados.
-              </p>
-            </div>
+<div class="glass rounded-3xl p-5 text-center">
+<h3 class="text-4xl font-black text-violet-300">
+24h
+</h3>
+<p class="text-gray-400 text-sm mt-2">
+Rotina diária
+</p>
+</div>
 
-            <div class="glass rounded-2xl p-5">
-              <h3 class="font-bold text-xl mb-2">
-                Rotina automática
-              </h3>
+<div class="glass rounded-3xl p-5 text-center">
+<h3 class="text-4xl font-black text-violet-300">
+AI
+</h3>
+<p class="text-gray-400 text-sm mt-2">
+Análise inteligente
+</p>
+</div>
 
-              <p class="text-gray-300">
-                A IA cria treinos específicos
-                para IGL, fragger,
-                suporte ou ranked grinder.
-              </p>
-            </div>
+<div class="glass rounded-3xl p-5 text-center">
+<h3 class="text-4xl font-black text-violet-300">
+PRO
+</h3>
+<p class="text-gray-400 text-sm mt-2">
+Sistema competitivo
+</p>
+</div>
 
-            <div class="glass rounded-2xl p-5">
-              <h3 class="font-bold text-xl mb-2">
-                Evolução diária
-              </h3>
+</div>
 
-              <p class="text-gray-300">
-                Treinos focados em mechanics,
-                aim, mentalidade
-                e tomada de decisão.
-              </p>
-            </div>
+</div>
 
-          </div>
+<!-- LADO DIREITO -->
 
-        </div>
+<div class="glass glow rounded-[40px] p-8">
 
-      </div>
+<h2 class="text-4xl font-black mb-8">
+Sistema competitivo
+</h2>
 
-    </div>
+<div class="space-y-5">
 
-  </section>
+<div class="glass rounded-3xl p-5">
+<h3 class="text-2xl font-black mb-2">
+🎯 IA Competitiva
+</h3>
 
- <!-- ================= IA COACH MELHORADO ================= -->
+<p class="text-gray-300">
+Detecta seus erros automaticamente
+e gera planos personalizados.
+</p>
+</div>
+
+<div class="glass rounded-3xl p-5">
+<h3 class="text-2xl font-black mb-2">
+⚡ Treino Inteligente
+</h3>
+
+<p class="text-gray-300">
+Treinos de aim,
+mechanics,
+endgame,
+game sense
+e pressão competitiva.
+</p>
+</div>
+
+<div class="glass rounded-3xl p-5">
+<h3 class="text-2xl font-black mb-2">
+🏆 Evolução
+</h3>
+
+<p class="text-gray-300">
+Sistema de pontuação,
+potencial competitivo
+e progresso do player.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- IA -->
 
 <section id="ia" class="page relative z-10">
 
-  <div class="max-w-7xl mx-auto px-6 py-20">
+<div class="max-w-7xl mx-auto px-6 py-20">
 
-    <!-- TITULO -->
-    <div class="text-center mb-14">
+<div class="text-center mb-14">
 
-      <div class="glass inline-flex px-5 py-2 rounded-full text-violet-200 text-sm mb-5">
-        MAJOR IA • Competitive Assistant
-      </div>
+<h1 class="text-6xl font-black">
+IA Coach
+</h1>
 
-      <h1 class="text-6xl md:text-7xl font-black leading-[1]">
+<p class="text-gray-400 mt-5 text-lg max-w-3xl mx-auto">
+Descreva suas dificuldades
+e a IA criará uma análise completa.
+</p>
 
-        IA Coach
-        <span class="text-violet-300">
-          Fortnite
-        </span>
-
-      </h1>
-
-      <p class="text-gray-300 text-lg leading-relaxed max-w-3xl mx-auto mt-7">
-
-        A Major IA analisa sua gameplay,
-        identifica seus erros competitivos
-        e cria uma rotina inteligente
-        baseada no seu estilo de jogo.
-
-        Seja IGL,
-        fragger,
-        suporte
-        ou ranked grinder,
-        o sistema cria estratégias,
-        metas
-        e treinos personalizados
-        para acelerar sua evolução.
-
-      </p>
-
-    </div>
-
-    <!-- GRID -->
-
-    <div class="grid lg:grid-cols-2 gap-8 items-start">
-
-      <!-- IA -->
-
-      <div class="glass glow rounded-[40px] p-8">
-
-        <div class="flex items-center justify-between mb-8">
-
-          <div>
-
-            <p class="text-violet-300 text-sm mb-2">
-              Sistema online
-            </p>
-
-            <h2 class="text-4xl font-black">
-              Análise competitiva
-            </h2>
-
-          </div>
-
-          <div class="flex items-center gap-2 text-green-400 text-sm">
-
-            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-            ativo
-
-          </div>
-
-        </div>
-
-        <!-- SELECT -->
-
-        <div class="grid md:grid-cols-2 gap-4 mb-5">
-
-          <select
-          id="funcaoIA"
-          class="bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
-
-            <option>IGL</option>
-            <option>Fragger</option>
-            <option>Support</option>
-            <option>All Rounder</option>
-
-          </select>
-
-          <select
-          id="nivelIA"
-          class="bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
-
-            <option>Iniciante</option>
-            <option>Intermediário</option>
-            <option>Avançado</option>
-            <option>Competitivo</option>
-
-          </select>
-
-        </div>
-
-        <!-- TEXTAREA -->
-
-        <textarea
-        id="input"
-        class="w-full h-56 bg-black/20 rounded-3xl border border-white/10 p-6 outline-none text-lg"
-        placeholder="Ex: Sou IGL, fico nervoso em campeonato, erro calls no endgame e meu time perde muita fight em moving zone..."
-        ></textarea>
-
-        <!-- BOTAO -->
-
-        <button
-        onclick="gerarRotina()"
-        class="btn w-full mt-6 bg-violet-400 text-black py-5 rounded-2xl font-black text-lg">
-
-          GERAR ANÁLISE COMPLETA
-
-        </button>
-
-        <!-- RESULTADO -->
-
-        <div
-id="resultado"
-class="hidden mt-8 space-y-7">
 </div>
 
-      </div>
+<div class="grid lg:grid-cols-2 gap-8">
 
-      <!-- EXPLICAÇÕES -->
+<!-- INPUT -->
 
-      <div class="space-y-6">
+<div class="glass glow rounded-[40px] p-8">
 
-        <!-- CARD -->
+<div class="grid md:grid-cols-2 gap-4 mb-5">
 
-        <div class="glass rounded-3xl overflow-hidden">
+<select id="funcaoIA"
+class="bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
 
-          <img
-          src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop"
-          class="w-full h-56 object-cover"/>
+<option>IGL</option>
+<option>Fragger</option>
+<option>Support</option>
+<option>All Rounder</option>
 
-          <div class="p-6">
+</select>
 
-            <h3 class="text-3xl font-black mb-4">
-              Controle de pressão
-            </h3>
+<select id="nivelIA"
+class="bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
 
-            <p class="text-gray-300 leading-relaxed">
+<option>Iniciante</option>
+<option>Intermediário</option>
+<option>Avançado</option>
+<option>Competitivo</option>
 
-              Muitos players possuem mechanics fortes,
-              mas perdem desempenho
-              em campeonatos por nervosismo.
+</select>
 
-              A Major IA identifica
-              falhas mentais
-              e cria rotinas
-              para melhorar confiança
-              e tomada de decisão.
+</div>
 
-            </p>
+<textarea
+id="input"
+class="w-full h-64 bg-black/20 border border-white/10 rounded-3xl p-6 outline-none"
+placeholder="Ex: Sou IGL, fico nervoso em campeonato, erro calls no endgame..."
+></textarea>
 
-          </div>
+<button
+onclick="gerarRotina()"
+class="btn w-full bg-violet-500 text-black py-5 rounded-2xl font-black mt-6">
 
-        </div>
+GERAR ANÁLISE
 
-        <!-- CARD -->
+</button>
 
-        <div class="glass rounded-3xl overflow-hidden">
+</div>
 
-          <img
-          src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop"
-          class="w-full h-56 object-cover"/>
+<!-- RESULTADO -->
 
-          <div class="p-6">
+<div id="resultado"
+class="glass glow rounded-[40px] p-8">
 
-            <h3 class="text-3xl font-black mb-4">
-              Treino inteligente
-            </h3>
+<h2 class="text-4xl font-black mb-5">
+Análise IA
+</h2>
 
-            <p class="text-gray-300 leading-relaxed">
+<p class="text-gray-400">
+Aguardando análise...
+</p>
 
-              Jogar ranked sem objetivo
-              não gera evolução competitiva.
+</div>
 
-              A IA monta treinos focados
-              em mechanics,
-              game sense,
-              aim,
-              comunicação
-              e consistência.
+</div>
 
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
-<!-- ================= PLAYER PROFILE MELHORADO ================= -->
+<!-- PERFIL -->
 
 <section id="perfil" class="page relative z-10">
 
-  <div class="max-w-7xl mx-auto px-6 py-20">
+<div class="max-w-7xl mx-auto px-6 py-20">
 
-    <!-- TITULO -->
+<h1 class="text-6xl font-black mb-6">
+Player Profile
+</h1>
 
-    <div class="mb-14">
+<div class="grid lg:grid-cols-2 gap-8">
 
-      <div class="glass inline-flex px-5 py-2 rounded-full text-violet-200 text-sm mb-5">
-        Perfil competitivo
-      </div>
+<!-- CONFIG -->
 
-      <h1 class="text-6xl font-black mb-5">
-        Player Profile
-      </h1>
+<div class="glass glow rounded-[40px] p-8">
 
-      <p class="text-gray-300 text-lg leading-relaxed max-w-3xl">
+<input
+id="nick"
+type="text"
+placeholder="Seu nick..."
+class="w-full bg-black/20 border border-white/10 rounded-2xl p-4 outline-none mb-5"
+/>
 
-        Configure suas características,
-        dificuldades
-        e estilo competitivo.
+<div class="grid md:grid-cols-2 gap-4 mb-5">
 
-        O sistema analisa automaticamente
-        seu potencial
-        e acompanha sua evolução
-        dentro da plataforma Major.
+<select
+id="funcao"
+class="bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
 
-      </p>
+<option>IGL</option>
+<option>Fragger</option>
+<option>Support</option>
+<option>All Rounder</option>
 
-    </div>
+</select>
 
-    <!-- GRID -->
+<select
+id="nivel"
+class="bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
 
-    <div class="grid lg:grid-cols-2 gap-8">
+<option>Iniciante</option>
+<option>Intermediário</option>
+<option>Avançado</option>
+<option>Competitivo</option>
 
-      <!-- FORM -->
+</select>
 
-      <div class="glass glow rounded-[40px] p-8">
+</div>
 
-        <h2 class="text-4xl font-black mb-8">
-          Configurar perfil
-        </h2>
+<h3 class="text-2xl font-black mb-4">
+Características
+</h3>
 
-        <!-- NICK -->
+<div class="grid grid-cols-2 gap-3">
 
-        <div class="mb-5">
+<button onclick="toggleSkill(this)"
+class="skill glass border border-white/10 rounded-2xl p-4">
+Boa Aim
+</button>
 
-          <label class="block text-sm text-gray-300 mb-2">
-            Nickname
-          </label>
+<button onclick="toggleSkill(this)"
+class="skill glass border border-white/10 rounded-2xl p-4">
+Boa comunicação
+</button>
 
-          <input
-          id="nick"
-          type="text"
-          placeholder="Seu nick..."
-          class="w-full bg-black/20 border border-white/10 rounded-2xl p-4 outline-none"/>
+<button onclick="toggleSkill(this)"
+class="skill glass border border-white/10 rounded-2xl p-4">
+Mechanics fortes
+</button>
 
-        </div>
+<button onclick="toggleSkill(this)"
+class="skill glass border border-white/10 rounded-2xl p-4">
+Bom game sense
+</button>
 
-        <!-- FUNÇÃO -->
+<button onclick="toggleSkill(this)"
+class="skill glass border border-white/10 rounded-2xl p-4">
+Nervoso em campeonato
+</button>
 
-        <div class="grid md:grid-cols-2 gap-4 mb-5">
+<button onclick="toggleSkill(this)"
+class="skill glass border border-white/10 rounded-2xl p-4">
+Perde muitas fights
+</button>
 
-          <select
-          id="funcao"
-          class="bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
+</div>
 
-            <option>IGL</option>
-            <option>Fragger</option>
-            <option>Support</option>
-            <option>All Rounder</option>
+<button
+onclick="gerarPerfil()"
+class="btn w-full bg-violet-500 text-black py-5 rounded-2xl font-black mt-8">
 
-          </select>
+ANALISAR PERFIL
 
-          <select
-          id="nivel"
-          class="bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
+</button>
 
-            <option>Iniciante</option>
-            <option>Intermediário</option>
-            <option>Avançado</option>
-            <option>Competitivo</option>
+</div>
 
-          </select>
+<!-- RESULTADO -->
 
-        </div>
+<div class="glass glow rounded-[40px] p-8">
 
-        <!-- CARACTERISTICAS -->
+<h2 class="text-4xl font-black mb-8">
+Resultado
+</h2>
 
-        <div class="mb-8">
+<div class="grid grid-cols-2 gap-4 mb-6">
 
-          <h3 class="text-2xl font-black mb-4 text-green-400">
-            Características
-          </h3>
+<div class="glass rounded-3xl p-5">
+<p class="text-gray-400 mb-2">
+Consistência
+</p>
 
-          <div class="grid grid-cols-2 gap-3">
+<h3 id="consistencia"
+class="text-5xl font-black">
+0%
+</h3>
+</div>
 
-            <button onclick="toggleSkill(this)"
-            class="skillPos glass rounded-2xl p-4 text-left">
-              Boa Aim
-            </button>
+<div class="glass rounded-3xl p-5">
+<p class="text-gray-400 mb-2">
+Potencial
+</p>
 
-            <button onclick="toggleSkill(this)"
-            class="skillPos glass rounded-2xl p-4 text-left">
-              Boa comunicação
-            </button>
+<h3 id="potencial"
+class="text-5xl font-black">
+0%
+</h3>
+</div>
 
-            <button onclick="toggleSkill(this)"
-            class="skillPos glass rounded-2xl p-4 text-left">
-              Mechanics fortes
-            </button>
+</div>
 
-            <button onclick="toggleSkill(this)"
-            class="skillPos glass rounded-2xl p-4 text-left">
-              Bom game sense
-            </button>
+<div class="mb-8">
 
-            <button onclick="toggleSkill(this)"
-            class="skillPos glass rounded-2xl p-4 text-left">
-              Confiante em fights
-            </button>
+<div class="flex justify-between mb-3">
 
-            <button onclick="toggleSkill(this)"
-            class="skillPos glass rounded-2xl p-4 text-left">
-              Boa liderança
-            </button>
+<p class="text-gray-400">
+Evolução
+</p>
 
-          </div>
+<p id="evolucaoTexto"
+class="text-violet-300">
+0%
+</p>
 
-        </div>
+</div>
 
-        <!-- DEFEITOS -->
+<div class="w-full h-5 bg-black/20 rounded-full overflow-hidden">
 
-        <div class="mb-8">
+<div id="barra"
+class="h-full bg-violet-500 rounded-full transition-all duration-1000"
+style="width:0%">
+</div>
 
-          <h3 class="text-2xl font-black mb-4 text-red-400">
-            Dificuldades
-          </h3>
+</div>
 
-          <div class="grid grid-cols-2 gap-3">
+</div>
 
-            <button onclick="toggleSkill(this)"
-            class="skillNeg glass rounded-2xl p-4 text-left">
-              Nervoso em campeonato
-            </button>
+<div id="analise"
+class="glass rounded-3xl p-6 text-gray-300 leading-relaxed">
 
-            <button onclick="toggleSkill(this)"
-            class="skillNeg glass rounded-2xl p-4 text-left">
-              Erra rotação
-            </button>
+Configure seu perfil para análise.
 
-            <button onclick="toggleSkill(this)"
-            class="skillNeg glass rounded-2xl p-4 text-left">
-              Sem confiança
-            </button>
+</div>
 
-            <button onclick="toggleSkill(this)"
-            class="skillNeg glass rounded-2xl p-4 text-left">
-              Perde muitas fights
-            </button>
+</div>
 
-            <button onclick="toggleSkill(this)"
-            class="skillNeg glass rounded-2xl p-4 text-left">
-              Comunicação ruim
-            </button>
+</div>
 
-            <button onclick="toggleSkill(this)"
-            class="skillNeg glass rounded-2xl p-4 text-left">
-              Gameplay inconsistente
-            </button>
-
-          </div>
-
-        </div>
-
-        <!-- BOTAO -->
-
-        <button
-        onclick="gerarPerfil()"
-        class="btn w-full bg-violet-400 text-black py-5 rounded-2xl font-black text-lg">
-
-          ANALISAR PERFIL
-
-        </button>
-
-      </div>
-
-      <!-- RESULTADO -->
-
-      <div
-      id="resultadoPerfil"
-      class="glass glow rounded-[40px] p-8">
-
-        <div class="flex items-center justify-between mb-8">
-
-          <div>
-
-            <p class="text-violet-300 text-sm mb-2">
-              Competitive Analysis
-            </p>
-
-            <h2 class="text-4xl font-black">
-              Resultado
-            </h2>
-
-          </div>
-
-          <div class="flex items-center gap-2 text-green-400 text-sm">
-
-            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-            atualizado
-
-          </div>
-
-        </div>
-
-        <!-- STATS -->
-
-        <div class="grid grid-cols-2 gap-4 mb-7">
-
-          <div class="glass rounded-2xl p-5">
-
-            <p class="text-gray-400 text-sm mb-2">
-              Consistência
-            </p>
-
-            <h3 id="consistencia"
-            class="text-4xl font-black">
-              0%
-            </h3>
-
-          </div>
-
-          <div class="glass rounded-2xl p-5">
-
-            <p class="text-gray-400 text-sm mb-2">
-              Potencial
-            </p>
-
-            <h3 id="potencial"
-            class="text-4xl font-black">
-              0%
-            </h3>
-
-          </div>
-
-        </div>
-
-        <!-- BARRA -->
-
-        <div class="mb-8">
-
-          <div class="flex justify-between mb-3">
-
-            <p class="text-gray-300">
-              Evolução competitiva
-            </p>
-
-            <p id="evolucaoTexto"
-            class="text-violet-300">
-              0%
-            </p>
-
-          </div>
-
-          <div class="w-full h-5 bg-black/20 rounded-full overflow-hidden">
-
-            <div
-            id="barra"
-            class="h-full bg-violet-400 rounded-full"
-            style="width:0%; transition:1s;">
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- ANALISE -->
-
-        <div
-        id="analise"
-        class="glass rounded-3xl p-6 text-gray-300 leading-relaxed">
-
-          Configure seu perfil
-          para receber análise competitiva.
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-  <!-- ================= TREINO ================= -->
-
-  <section id="treino" class="page relative z-10">
-
-    <div class="max-w-6xl mx-auto px-6 py-20">
-
-      <h1 class="text-6xl font-black mb-6">
-        Daily Training
-      </h1>
-
-      <p class="text-gray-300 text-lg max-w-2xl leading-relaxed mb-10">
-
-        Treinos criados para melhorar
-        consistência competitiva,
-        mechanics,
-        comunicação
-        e controle emocional.
-
-      </p>
-
-      <div class="grid md:grid-cols-2 gap-6">
-
-        <div class="glass rounded-3xl p-7">
-          <h2 class="text-2xl font-black mb-4">
-            Mechanics
-          </h2>
-
-          <div class="space-y-3 text-gray-300">
-            <p>• Piece control</p>
-            <p>• Triple edit</p>
-            <p>• Retakes</p>
-            <p>• Boxfight speed</p>
-          </div>
-        </div>
-
-        <div class="glass rounded-3xl p-7">
-          <h2 class="text-2xl font-black mb-4">
-            Aim Training
-          </h2>
-
-          <div class="space-y-3 text-gray-300">
-            <p>• Tracking</p>
-            <p>• Flicks</p>
-            <p>• Shotgun aim</p>
-            <p>• Crosshair placement</p>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-<!-- SUBSTITUA A SECTION "PERFIL" POR ESSA -->
-
-<section id="perfil" class="page relative z-10">
-
-  <div class="max-w-7xl mx-auto px-6 py-20">
-
-    <!-- TITULO -->
-    <div class="mb-12">
-
-      <div class="glass inline-flex px-5 py-2 rounded-full text-violet-200 text-sm mb-5">
-        Sistema de evolução competitiva
-      </div>
-
-      <h1 class="text-6xl font-black mb-5">
-        Player Profile
-      </h1>
-
-      <p class="text-gray-300 text-lg max-w-3xl leading-relaxed">
-
-        Crie seu perfil competitivo,
-        defina suas dificuldades
-        e acompanhe sua evolução dentro do Fortnite.
-
-        O sistema analisa automaticamente
-        seus pontos fortes,
-        pontos fracos
-        e nível competitivo.
-
-      </p>
-
-    </div>
-
-    <div class="grid lg:grid-cols-2 gap-8">
-
-      <!-- FORM -->
-      <div class="glass glow rounded-[35px] p-8">
-
-        <h2 class="text-3xl font-black mb-8">
-          Configurar perfil
-        </h2>
-
-        <!-- USERNAME -->
-        <div class="mb-5">
-
-          <label class="block text-sm text-gray-300 mb-2">
-            Nickname
-          </label>
-
-          <input
-          id="nick"
-          type="text"
-          placeholder="Seu nick..."
-          class="w-full bg-black/20 border border-white/10 rounded-2xl p-4 outline-none"/>
-
-        </div>
-
-        <!-- FUNÇÃO -->
-        <div class="mb-5">
-
-          <label class="block text-sm text-gray-300 mb-2">
-            Função principal
-          </label>
-
-          <select
-          id="funcao"
-          class="w-full bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
-
-            <option>IGL</option>
-            <option>Fragger</option>
-            <option>Support</option>
-            <option>All Rounder</option>
-
-          </select>
-
-        </div>
-
-        <!-- NIVEL -->
-        <div class="mb-5">
-
-          <label class="block text-sm text-gray-300 mb-2">
-            Nível competitivo
-          </label>
-
-          <select
-          id="nivel"
-          class="w-full bg-black/20 border border-white/10 rounded-2xl p-4 outline-none">
-
-            <option>Iniciante</option>
-            <option>Intermediário</option>
-            <option>Avançado</option>
-            <option>Competitivo</option>
-
-          </select>
-
-        </div>
-
-        <!-- CARACTERISTICAS -->
-
-        <div class="mb-5">
-
-          <label class="block text-sm text-gray-300 mb-3">
-            Características
-          </label>
-
-          <div class="grid grid-cols-2 gap-3">
-
-            <button onclick="toggleSkill(this)"
-            class="skill glass rounded-2xl p-4 text-left">
-              Boa Aim
-            </button>
-
-            <button onclick="toggleSkill(this)"
-            class="skill glass rounded-2xl p-4 text-left">
-              Nervoso em campeonato
-            </button>
-
-            <button onclick="toggleSkill(this)"
-            class="skill glass rounded-2xl p-4 text-left">
-              Boa comunicação
-            </button>
-
-            <button onclick="toggleSkill(this)"
-            class="skill glass rounded-2xl p-4 text-left">
-              Erra rotação
-            </button>
-
-            <button onclick="toggleSkill(this)"
-            class="skill glass rounded-2xl p-4 text-left">
-              Mechanics fortes
-            </button>
-
-            <button onclick="toggleSkill(this)"
-            class="skill glass rounded-2xl p-4 text-left">
-              Sem confiança
-            </button>
-
-            <button onclick="toggleSkill(this)"
-            class="skill glass rounded-2xl p-4 text-left">
-              Bom game sense
-            </button>
-
-            <button onclick="toggleSkill(this)"
-            class="skill glass rounded-2xl p-4 text-left">
-              Perde muitas fights
-            </button>
-
-          </div>
-
-        </div>
-
-        <button
-        onclick="gerarPerfil()"
-        class="btn w-full bg-violet-400 text-black py-5 rounded-2xl font-black text-lg mt-4">
-
-          ANALISAR PERFIL
-
-        </button>
-
-      </div>
-
-      <!-- RESULTADO -->
-      <div
-      id="resultadoPerfil"
-      class="glass glow rounded-[35px] p-8">
-
-        <div class="flex items-center justify-between mb-8">
-
-          <div>
-
-            <p class="text-violet-300 text-sm">
-              Major Competitive System
-            </p>
-
-            <h2 class="text-4xl font-black mt-2">
-              Perfil competitivo
-            </h2>
-
-          </div>
-
-          <div class="flex items-center gap-2 text-green-400 text-sm">
-
-            <div class="w-3 h-3 rounded-full bg-green-400"></div>
-            sincronizado
-
-          </div>
-
-        </div>
-
-        <!-- STATUS -->
-
-        <div class="grid grid-cols-2 gap-4 mb-6">
-
-          <div class="glass rounded-2xl p-5">
-
-            <p class="text-gray-400 text-sm mb-2">
-              Consistência
-            </p>
-
-            <h3
-            id="consistencia"
-            class="text-4xl font-black">
-              0%
-            </h3>
-
-          </div>
-
-          <div class="glass rounded-2xl p-5">
-
-            <p class="text-gray-400 text-sm mb-2">
-              Potencial competitivo
-            </p>
-
-            <h3
-            id="potencial"
-            class="text-4xl font-black">
-              0%
-            </h3>
-
-          </div>
-
-        </div>
-
-        <!-- BARRA -->
-
-        <div class="mb-8">
-
-          <div class="flex justify-between mb-3">
-
-            <p class="text-gray-300">
-              Evolução do player
-            </p>
-
-            <p
-            id="evolucaoTexto"
-            class="text-violet-300">
-              0%
-            </p>
-
-          </div>
-
-          <div class="w-full h-5 bg-black/20 rounded-full overflow-hidden">
-
-            <div
-            id="barra"
-            class="h-full bg-violet-400 rounded-full"
-            style="width:0%; transition:1s;">
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- ANALISE -->
-
-        <div
-        id="analise"
-        class="glass rounded-3xl p-6 text-gray-300 leading-relaxed">
-
-          Configure seu perfil
-          para receber análise automática.
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
+<!-- TREINO -->
+
+<section id="treino" class="page relative z-10">
+
+<div class="max-w-7xl mx-auto px-6 py-20">
+
+<h1 class="text-6xl font-black mb-10">
+Treinos Diários
+</h1>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<div class="rank-card glass rounded-3xl p-7">
+
+<h2 class="text-3xl font-black mb-4">
+🎯 Aim
+</h2>
+
+<div class="space-y-2 text-gray-300">
+<p>• Tracking</p>
+<p>• Flicks</p>
+<p>• Shotgun</p>
+<p>• Crosshair placement</p>
+</div>
+
+</div>
+
+<div class="rank-card glass rounded-3xl p-7">
+
+<h2 class="text-3xl font-black mb-4">
+⚡ Mechanics
+</h2>
+
+<div class="space-y-2 text-gray-300">
+<p>• Triple edits</p>
+<p>• Piece control</p>
+<p>• Retakes</p>
+<p>• Boxfight speed</p>
+</div>
+
+</div>
+
+<div class="rank-card glass rounded-3xl p-7">
+
+<h2 class="text-3xl font-black mb-4">
+🧠 Game Sense
+</h2>
+
+<div class="space-y-2 text-gray-300">
+<p>• Rotação</p>
+<p>• Endgame</p>
+<p>• Layer control</p>
+<p>• Calls rápidas</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="text-center py-10 text-gray-500 relative z-10">
+MAJOR © 2026 • Fortnite Competitive System
+</footer>
+
+<!-- SCRIPT -->
+
 <script>
 
-  let skillsSelecionadas = [];
-
-  function toggleSkill(botao){
-
-    botao.classList.toggle("bg-violet-400");
-    botao.classList.toggle("text-black");
-
-    const texto = botao.innerText;
-
-    if(skillsSelecionadas.includes(texto)){
-
-      skillsSelecionadas =
-      skillsSelecionadas.filter(skill => skill !== texto);
-
-    }else{
-
-      skillsSelecionadas.push(texto);
-
-    }
-
-  }
-
-  function gerarPerfil(){
-
-    const nick =
-    document.getElementById("nick").value;
-
-    const funcao =
-    document.getElementById("funcao").value;
-
-    const nivel =
-    document.getElementById("nivel").value;
-
-    let pontos = 40;
-
-    // PONTOS POSITIVOS
-
-    if(skillsSelecionadas.includes("Boa Aim"))
-    pontos += 10;
-
-    if(skillsSelecionadas.includes("Boa comunicação"))
-    pontos += 10;
-
-    if(skillsSelecionadas.includes("Mechanics fortes"))
-    pontos += 15;
-
-    if(skillsSelecionadas.includes("Bom game sense"))
-    pontos += 15;
-
-    // NEGATIVOS
-
-    if(skillsSelecionadas.includes("Nervoso em campeonato"))
-    pontos -= 10;
-
-    if(skillsSelecionadas.includes("Erra rotação"))
-    pontos -= 10;
-
-    if(skillsSelecionadas.includes("Sem confiança"))
-    pontos -= 10;
-
-    if(skillsSelecionadas.includes("Perde muitas fights"))
-    pontos -= 15;
-
-    // LIMITES
-
-    if(pontos < 0)
-    pontos = 0;
-
-    if(pontos > 100)
-    pontos = 100;
-
-    // BARRA
-
-    document.getElementById("barra")
-    .style.width = pontos + "%";
-
-    document.getElementById("evolucaoTexto")
-    .innerText = pontos + "%";
-
-    document.getElementById("consistencia")
-    .innerText = pontos + "%";
-
-    document.getElementById("potencial")
-    .innerText =
-    Math.min(pontos + 12,100) + "%";
-
-    // TEXTO ANALISE
-
-    let texto = `
-
-    <h3 class="text-3xl font-black mb-5">
-      ${nick || "Player"} • ${funcao}
-    </h3>
-
-    <p class="mb-4">
-
-      Perfil identificado como
-      <span class="text-violet-300">
-      ${nivel}
-      </span>
-      no cenário competitivo.
-
-    </p>
-
-    `;
-
-    if(pontos >= 80){
-
-      texto += `
-
-      Sua gameplay apresenta
-      excelente potencial competitivo.
-
-      Você possui fundamentos fortes
-      e capacidade de evolução rápida
-      dentro do competitivo.
-
-      Continue focando em consistência
-      e tomada de decisão.
-
-      `;
-
-    }
-
-    else if(pontos >= 60){
-
-      texto += `
-
-      Seu perfil mostra
-      boa base competitiva,
-      porém ainda existem falhas
-      que limitam sua performance.
-
-      A Major recomenda:
-      treinos de pressão,
-      scrims constantes
-      e revisão de erros.
-
-      `;
-
-    }
-
-    else{
-
-      texto += `
-
-      Sua gameplay ainda apresenta
-      inconsistências importantes.
-
-      O foco principal agora
-      deve ser:
-      mechanics,
-      controle emocional
-      e disciplina de treino.
-
-      Evolução virá com rotina diária.
-
-      `;
-
-    }
-
-    document.getElementById("analise")
-    .innerHTML = texto;
-
-  }
-
-</script>
-
-  <!-- FOOTER -->
-
-  <footer class="text-center py-10 text-gray-400 text-sm relative z-10">
-
-    MAJOR © 2026 • Fortnite Competitive System
-
-  </footer>
-
-  <!-- SCRIPT -->
-<script>
+/* PAGINAS */
 
 function abrirPagina(id){
 
-  document.querySelectorAll(".page").forEach(pagina => {
-    pagina.classList.remove("active");
-  });
+document.querySelectorAll(".page").forEach(page=>{
+page.classList.remove("active");
+});
 
-  document.getElementById(id).classList.add("active");
+document.getElementById(id).classList.add("active");
 
 }
 
-/* =========================
-   PLAYER PROFILE
-========================= */
+/* SKILLS */
 
 let skillsSelecionadas = [];
 
 function toggleSkill(botao){
 
-  botao.classList.toggle("bg-violet-400");
-  botao.classList.toggle("text-black");
+botao.classList.toggle("skill-active");
 
-  const texto = botao.innerText;
+const texto = botao.innerText;
 
-  if(skillsSelecionadas.includes(texto)){
+if(skillsSelecionadas.includes(texto)){
 
-    skillsSelecionadas =
-    skillsSelecionadas.filter(skill => skill !== texto);
+skillsSelecionadas =
+skillsSelecionadas.filter(skill => skill !== texto);
 
-  }else{
+}else{
 
-    skillsSelecionadas.push(texto);
-
-  }
+skillsSelecionadas.push(texto);
 
 }
+
+}
+
+/* PERFIL */
 
 function gerarPerfil(){
 
-  const nick =
-  document.getElementById("nick").value;
+const nick =
+document.getElementById("nick").value;
 
-  const funcao =
-  document.getElementById("funcao").value;
+const funcao =
+document.getElementById("funcao").value;
 
-  const nivel =
-  document.getElementById("nivel").value;
+let pontos = 50;
 
-  let pontos = 50;
+if(skillsSelecionadas.includes("Boa Aim"))
+pontos += 10;
 
-  if(skillsSelecionadas.includes("Boa Aim"))
-  pontos += 10;
+if(skillsSelecionadas.includes("Boa comunicação"))
+pontos += 10;
 
-  if(skillsSelecionadas.includes("Boa comunicação"))
-  pontos += 10;
+if(skillsSelecionadas.includes("Mechanics fortes"))
+pontos += 15;
 
-  if(skillsSelecionadas.includes("Mechanics fortes"))
-  pontos += 15;
+if(skillsSelecionadas.includes("Bom game sense"))
+pontos += 15;
 
-  if(skillsSelecionadas.includes("Bom game sense"))
-  pontos += 15;
+if(skillsSelecionadas.includes("Nervoso em campeonato"))
+pontos -= 10;
 
-  if(skillsSelecionadas.includes("Nervoso em campeonato"))
-  pontos -= 10;
+if(skillsSelecionadas.includes("Perde muitas fights"))
+pontos -= 15;
 
-  if(skillsSelecionadas.includes("Erra rotação"))
-  pontos -= 10;
+pontos = Math.max(0, Math.min(100, pontos));
 
-  if(skillsSelecionadas.includes("Sem confiança"))
-  pontos -= 10;
+document.getElementById("barra").style.width =
+pontos + "%";
 
-  if(skillsSelecionadas.includes("Perde muitas fights"))
-  pontos -= 15;
+document.getElementById("evolucaoTexto").innerText =
+pontos + "%";
 
-  pontos = Math.max(0, Math.min(100, pontos));
+document.getElementById("consistencia").innerText =
+pontos + "%";
 
-  document.getElementById("barra").style.width =
-  pontos + "%";
+document.getElementById("potencial").innerText =
+Math.min(100, pontos + 12) + "%";
 
-  document.getElementById("evolucaoTexto").innerText =
-  pontos + "%";
+let texto = `
+<h3 class="text-3xl font-black mb-5">
+${nick || "Player"} • ${funcao}
+</h3>
 
-  document.getElementById("consistencia").innerText =
-  pontos + "%";
+<p>
+`;
 
-  document.getElementById("potencial").innerText =
-  Math.min(pontos + 10,100) + "%";
+if(pontos >= 80){
 
-  let texto = `
-  
-  <h3 class="text-3xl font-black mb-5">
-    ${nick || "Player"} • ${funcao}
-  </h3>
+texto += `
+Você possui excelente potencial competitivo.
+Sua gameplay demonstra ótima consistência,
+mechanics fortes
+e capacidade competitiva avançada.
+`;
 
-  <p class="mb-4">
-    Perfil identificado como
-    <span class="text-violet-300">
-      ${nivel}
-    </span>
-  </p>
+}else if(pontos >= 60){
 
-  `;
+texto += `
+Sua gameplay possui boa base,
+porém ainda existem falhas
+que limitam sua consistência competitiva.
+`;
 
-  if(pontos >= 80){
+}else{
 
-    texto += `
-    Excelente potencial competitivo.
-    Sua gameplay possui ótima base
-    e boa consistência.
-    `;
-
-  }
-
-  else if(pontos >= 60){
-
-    texto += `
-    Você possui boa base,
-    porém ainda existem falhas
-    que limitam sua performance.
-    `;
-
-  }
-
-  else{
-
-    texto += `
-    Sua gameplay ainda apresenta
-    inconsistências importantes.
-
-    Foque em:
-    mechanics,
-    confiança
-    e rotina diária.
-    `;
-
-  }
-
-  document.getElementById("analise")
-  .innerHTML = texto;
+texto += `
+Sua gameplay ainda apresenta
+muitas inconsistências.
+Foque em mechanics,
+confiança
+e rotina diária.
+`;
 
 }
 
-/* =========================
-   IA COACH
-========================= */
+texto += `</p>`;
+
+document.getElementById("analise").innerHTML = texto;
+
+}
+
+/* IA */
 
 function gerarRotina(){
 
-  const texto =
-  document.getElementById("input")
-  .value
-  .toLowerCase();
+const texto =
+document.getElementById("input")
+.value
+.toLowerCase();
 
-  const resultado =
-  document.getElementById("resultado");
+const resultado =
+document.getElementById("resultado");
 
-  const funcao =
-  document.getElementById("funcaoIA").value;
+const funcao =
+document.getElementById("funcaoIA").value;
 
-  const nivel =
-  document.getElementById("nivelIA").value;
+const nivel =
+document.getElementById("nivelIA").value;
 
-  let titulo = "";
-  let analise = "";
-  let rotina = "";
-  let foco = "";
+let titulo = "";
+let diagnostico = "";
+let treino = "";
 
-  if(
-    texto.includes("endgame") ||
-    texto.includes("moving")
-  ){
+if(
+texto.includes("endgame") ||
+texto.includes("moving")
+){
 
-    titulo = "Dificuldade em End Game";
+titulo = "Problema em Endgame";
 
-    analise = `
-    Sua gameplay apresenta dificuldade
-    em moving zones,
-    layer control
-    e tomada de decisão rápida.
-    `;
+diagnostico = `
+Você apresenta dificuldade
+em moving zones,
+layer control
+e decisões rápidas.
+`;
 
-    foco = `
-    • Layer control<br>
-    • Moving zones<br>
-    • Refresh timing
-    `;
+treino = `
+• 45min realistic endgame<br>
+• Scrims diárias<br>
+• Revisão de VOD FNCS<br>
+• Tarp movement
+`;
 
-    rotina = `
-    • 45min realistic endgame<br>
-    • Revisar VODs FNCS<br>
-    • Treinar tarp movement<br>
-    • Jogar scrims
-    `;
+}
 
-  }
+else if(
+texto.includes("aim") ||
+texto.includes("mira")
+){
 
-  else if(
-    texto.includes("aim") ||
-    texto.includes("mira")
-  ){
+titulo = "Problema de Aim";
 
-    titulo = "Problema de Aim";
+diagnostico = `
+Sua precisão está inconsistente,
+principalmente em shotgun fights.
+`;
 
-    analise = `
-    Sua gameplay apresenta inconsistência
-    em precisão
-    e crosshair placement.
-    `;
+treino = `
+• Tracking maps<br>
+• Flick training<br>
+• Crosshair placement<br>
+• Shotgun aim
+`;
 
-    foco = `
-    • Tracking<br>
-    • Flicks<br>
-    • Shotgun precision
-    `;
+}
 
-    rotina = `
-    • 1h aim training<br>
-    • Tracking maps<br>
-    • Shotgun flicks
-    `;
+else if(
+texto.includes("igl") ||
+texto.includes("call")
+){
 
-  }
+titulo = "Desenvolvimento de IGL";
 
-  else if(
-    texto.includes("igl") ||
-    texto.includes("call")
-  ){
+diagnostico = `
+Você apresenta dificuldades
+em calls
+e coordenação de lobby.
+`;
 
-    titulo = "Desenvolvimento de IGL";
+treino = `
+• Revisar IGLs FNCS<br>
+• Scrims focando calls<br>
+• Macro game<br>
+• Comunicação rápida
+`;
 
-    analise = `
-    Sua gameplay mostra dificuldade
-    em calls
-    e organização de lobby.
-    `;
+}
 
-    foco = `
-    • Comunicação<br>
-    • Rotação<br>
-    • Calls rápidas
-    `;
+else{
 
-    rotina = `
-    • Revisar IGLs FNCS<br>
-    • Scrims focando calls<br>
-    • Treinar macro game
-    `;
+titulo = "Análise Geral";
 
-  }
+diagnostico = `
+A IA detectou inconsistências gerais
+na sua gameplay competitiva.
+`;
 
-  else{
+treino = `
+• Aim training<br>
+• Mechanics<br>
+• Boxfight<br>
+• Game sense
+`;
 
-    titulo = "Análise Competitiva";
+}
 
-    analise = `
-    O sistema identificou
-    inconsistências gerais
-    na sua gameplay.
-    `;
+resultado.innerHTML = `
 
-    foco = `
-    • Mechanics<br>
-    • Aim<br>
-    • Game sense
-    `;
+<div class="space-y-6">
 
-    rotina = `
-    • Aim training<br>
-    • Mechanics<br>
-    • Scrims
-    `;
+<div class="glass rounded-3xl p-6">
 
-  }
+<p class="text-violet-300 text-sm mb-2">
+Análise concluída
+</p>
 
-  resultado.innerHTML = `
+<h2 class="text-4xl font-black mb-3">
+${titulo}
+</h2>
 
-  <div class="space-y-6">
+<p class="text-gray-400">
+${funcao} • ${nivel}
+</p>
 
-    <div class="glass rounded-3xl p-7">
+</div>
 
-      <p class="text-violet-300 text-sm mb-2">
-        análise concluída
-      </p>
+<div class="glass rounded-3xl p-6">
 
-      <h2 class="text-5xl font-black mb-4">
-        ${titulo}
-      </h2>
+<h3 class="text-2xl font-black mb-4">
+Diagnóstico
+</h3>
 
-      <p class="text-gray-400">
-        ${funcao} • ${nivel}
-      </p>
+<p class="text-gray-300 leading-relaxed">
+${diagnostico}
+</p>
 
-    </div>
+</div>
 
-    <div class="glass rounded-3xl p-7">
+<div class="glass rounded-3xl p-6">
 
-      <h3 class="text-2xl font-black mb-5">
-        Diagnóstico da IA
-      </h3>
+<h3 class="text-2xl font-black mb-4">
+Treino recomendado
+</h3>
 
-      <p class="text-gray-300 leading-relaxed">
-        ${analise}
-      </p>
+<div class="text-gray-300 leading-relaxed">
+${treino}
+</div>
 
-    </div>
+</div>
 
-    <div class="glass rounded-3xl p-7">
+</div>
 
-      <h3 class="text-2xl font-black mb-5">
-        Áreas prioritárias
-      </h3>
-
-      <div class="text-gray-300 leading-relaxed">
-        ${foco}
-      </div>
-
-    </div>
-
-    <div class="glass rounded-3xl p-7">
-
-      <h3 class="text-2xl font-black mb-5">
-        Rotina personalizada
-      </h3>
-
-      <div class="text-gray-300 leading-relaxed">
-        ${rotina}
-      </div>
-
-    </div>
-
-  </div>
-
-  `;
-
-  resultado.classList.remove("hidden");
+`;
 
 }
 
 </script>
- 
 
 </body>
 </html>
