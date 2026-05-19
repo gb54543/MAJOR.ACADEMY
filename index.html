@@ -3,115 +3,222 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Major • Fortnite Performance</title>
+
+  <title>Major IA • Fortnite Performance</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
     body{
-      background: linear-gradient(135deg,#09070d,#2b1f33,#6f5577);
-      overflow-x: hidden;
-      font-family: Arial, sans-serif;
+      overflow-x:hidden;
+      background:
+      radial-gradient(circle at top left,#7b5cff22,transparent 30%),
+      radial-gradient(circle at bottom right,#c084fc22,transparent 30%),
+      linear-gradient(135deg,#050507,#17111f,#3d2d4b,#705a78);
+      min-height:100vh;
+      color:white;
+    }
+
+    /* ANIMAÇÃO FUNDO */
+    .blur1{
+      position:absolute;
+      width:500px;
+      height:500px;
+      background:#9f7aea30;
+      filter:blur(120px);
+      top:-100px;
+      left:-100px;
+      animation:float 8s infinite ease-in-out;
+    }
+
+    .blur2{
+      position:absolute;
+      width:450px;
+      height:450px;
+      background:#ffffff10;
+      filter:blur(120px);
+      bottom:-100px;
+      right:-100px;
+      animation:float2 9s infinite ease-in-out;
+    }
+
+    @keyframes float{
+      0%{transform:translateY(0px);}
+      50%{transform:translateY(40px);}
+      100%{transform:translateY(0px);}
+    }
+
+    @keyframes float2{
+      0%{transform:translateY(0px);}
+      50%{transform:translateY(-40px);}
+      100%{transform:translateY(0px);}
     }
 
     .glass{
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      backdrop-filter:blur(18px);
     }
 
     .glow{
-      box-shadow: 0 0 30px rgba(189, 141, 255, 0.25);
-    }
-
-    .card-hover{
-      transition: .25s;
-    }
-
-    .card-hover:hover{
-      transform: translateY(-6px);
-      box-shadow: 0 0 30px rgba(255,255,255,0.12);
+      box-shadow:
+      0 0 60px rgba(168,85,247,.18),
+      inset 0 0 30px rgba(255,255,255,.02);
     }
 
     textarea{
-      resize: none;
+      resize:none;
     }
+
+    .btn{
+      transition:.25s;
+    }
+
+    .btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 0 35px rgba(192,132,252,.35);
+    }
+
+    .card{
+      transition:.25s;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+      border-color:#c084fc55;
+    }
+
   </style>
 </head>
-<body class="text-white min-h-screen">
 
-  <!-- NAV -->
-  <nav class="w-full flex items-center justify-between px-8 py-6">
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="blur1"></div>
+  <div class="blur2"></div>
+
+  <!-- NAVBAR -->
+  <nav class="w-full px-8 py-7 flex justify-between items-center relative z-10">
+
     <div class="flex items-center gap-4">
-      <img src="logo.png" class="w-12 h-12"/>
-      <h1 class="text-2xl font-bold tracking-wide">MAJOR</h1>
+      <img src="logo.png" class="w-12 h-12 object-contain"/>
+      <h1 class="text-3xl font-black tracking-widest">
+        MAJOR
+      </h1>
     </div>
 
-    <div class="hidden md:flex gap-8 text-sm text-gray-300">
-      <a href="#">Início</a>
-      <a href="#">Treinos</a>
+    <div class="hidden md:flex gap-8 text-gray-300 text-sm">
       <a href="#">IA Coach</a>
-      <a href="#">Discord</a>
+      <a href="#">Rotinas</a>
+      <a href="#">Treino Diário</a>
+      <a href="#">Player Profile</a>
     </div>
+
   </nav>
 
   <!-- HERO -->
-  <section class="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-16 items-center">
+  <section class="max-w-7xl mx-auto px-6 py-12 relative z-10">
 
-    <div>
-      <span class="px-4 py-2 rounded-full glass text-sm text-violet-200">
-        Performance Fortnite
-      </span>
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
 
-      <h1 class="text-5xl md:text-7xl font-black mt-6 leading-tight">
-        Evolua no
-        <span class="text-violet-300">Fortnite</span>
-        com IA
-      </h1>
+      <!-- TEXTO -->
+      <div>
 
-      <p class="text-gray-300 mt-6 text-lg leading-relaxed">
-        Crie rotinas personalizadas, descubra seus erros,
-        receba dicas de IGL, fragger, game sense,
-        aim e mentalidade competitiva.
-      </p>
+        <div class="glass inline-flex px-5 py-2 rounded-full text-sm text-violet-200 mb-6">
+          Sistema inteligente de evolução competitiva
+        </div>
 
-      <div class="flex gap-4 mt-8">
-        <button class="px-7 py-4 rounded-2xl bg-violet-400 text-black font-bold hover:scale-105 transition">
-          Começar
-        </button>
+        <h1 class="text-6xl md:text-7xl font-black leading-[1]">
 
-        <button class="px-7 py-4 rounded-2xl glass hover:bg-white/10 transition">
-          Entrar no Discord
-        </button>
-      </div>
-    </div>
+          Evolua no
+          <span class="text-violet-300">
+            Fortnite
+          </span>
 
-    <!-- IA BOX -->
-    <div class="glass glow rounded-3xl p-6">
+          como um
+          player profissional.
 
-      <div class="flex items-center gap-3 mb-6">
-        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-        <p class="text-sm text-gray-300">
-          Major IA Coach online
+        </h1>
+
+        <p class="text-gray-300 text-lg leading-relaxed mt-8 max-w-xl">
+
+          A Major IA analisa suas dificuldades,
+          identifica seus erros competitivos
+          e cria uma rotina personalizada
+          para transformar sua gameplay.
+
+          Seja IGL, fragger ou suporte,
+          você recebe treinos diários,
+          metas e estratégias feitas
+          especificamente para o seu estilo.
+
         </p>
+
+        <div class="flex flex-wrap gap-4 mt-10">
+
+          <button class="btn bg-violet-400 text-black px-8 py-4 rounded-2xl font-bold">
+            Começar evolução
+          </button>
+
+          <button class="btn glass px-8 py-4 rounded-2xl">
+            Entrar no Discord
+          </button>
+
+        </div>
+
       </div>
 
-      <h2 class="text-2xl font-bold mb-4">
-        Fale sua dificuldade
-      </h2>
+      <!-- IA -->
+      <div class="glass glow rounded-[35px] p-7">
 
-      <textarea id="input"
-        class="w-full h-40 bg-black/20 rounded-2xl p-4 outline-none border border-white/10"
-        placeholder="Ex: Sou IGL mas fico nervoso em campeonato e erro calls no endgame..."
-      ></textarea>
+        <div class="flex items-center justify-between mb-6">
 
-      <button onclick="gerarRotina()"
-        class="w-full mt-5 py-4 rounded-2xl bg-violet-400 text-black font-bold text-lg hover:scale-[1.02] transition">
-        Gerar rotina
-      </button>
+          <div>
+            <p class="text-sm text-violet-200">
+              Major IA Coach
+            </p>
 
-      <div id="resultado"
-        class="mt-6 hidden bg-black/20 rounded-2xl p-5 border border-white/10">
+            <h2 class="text-3xl font-black mt-1">
+              Análise competitiva
+            </h2>
+          </div>
+
+          <div class="flex items-center gap-2 text-green-400 text-sm">
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+            online
+          </div>
+
+        </div>
+
+        <textarea
+        id="input"
+        class="w-full h-52 rounded-3xl bg-black/20 border border-white/10 p-5 outline-none text-white"
+        placeholder="Ex: Sou IGL, fico nervoso em campeonato, erro calls no endgame e tenho dificuldade em controlar o time em lobby stacked..."
+        ></textarea>
+
+        <button
+        onclick="gerarRotina()"
+        class="btn w-full mt-5 bg-violet-400 text-black py-5 rounded-2xl text-lg font-black">
+
+          GERAR ROTINA PERSONALIZADA
+
+        </button>
+
+        <!-- RESULTADO -->
+        <div
+        id="resultado"
+        class="hidden mt-6 bg-black/20 border border-white/10 rounded-3xl p-6">
+
+        </div>
+
       </div>
 
     </div>
@@ -119,34 +226,54 @@
   </section>
 
   <!-- FEATURES -->
-  <section class="max-w-7xl mx-auto px-6 py-10">
+  <section class="max-w-7xl mx-auto px-6 py-8 relative z-10">
 
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid md:grid-cols-4 gap-5">
 
-      <div class="glass rounded-3xl p-7 card-hover">
-        <h3 class="text-2xl font-bold mb-3">IGL</h3>
+      <div class="card glass rounded-3xl p-6">
+        <h3 class="text-2xl font-black mb-4">
+          IA Coach
+        </h3>
 
-        <p class="text-gray-300">
-          Melhore calls, rotação, leitura de zona,
-          liderança e confiança no competitivo.
+        <p class="text-gray-300 leading-relaxed">
+          Receba análise automática da sua gameplay
+          e descubra exatamente no que focar.
         </p>
       </div>
 
-      <div class="glass rounded-3xl p-7 card-hover">
-        <h3 class="text-2xl font-bold mb-3">Fragger</h3>
+      <div class="card glass rounded-3xl p-6">
+        <h3 class="text-2xl font-black mb-4">
+          Rotina automática
+        </h3>
 
-        <p class="text-gray-300">
-          Treinos de aim, peaks, pressure,
-          tracking e fight inteligente.
+        <p class="text-gray-300 leading-relaxed">
+          A IA monta treinos diários
+          personalizados para seu nível
+          e função competitiva.
         </p>
       </div>
 
-      <div class="glass rounded-3xl p-7 card-hover">
-        <h3 class="text-2xl font-bold mb-3">Mental</h3>
+      <div class="card glass rounded-3xl p-6">
+        <h3 class="text-2xl font-black mb-4">
+          Player Profile
+        </h3>
 
-        <p class="text-gray-300">
-          Controle emocional, confiança,
-          foco e redução de nervosismo.
+        <p class="text-gray-300 leading-relaxed">
+          Salve evolução, metas,
+          desempenho e estatísticas
+          do seu competitivo.
+        </p>
+      </div>
+
+      <div class="card glass rounded-3xl p-6">
+        <h3 class="text-2xl font-black mb-4">
+          Daily Training
+        </h3>
+
+        <p class="text-gray-300 leading-relaxed">
+          Treinos de aim, mechanics,
+          game sense, comunicação
+          e controle mental.
         </p>
       </div>
 
@@ -155,85 +282,184 @@
   </section>
 
   <!-- FOOTER -->
-  <footer class="text-center py-10 text-gray-400 text-sm">
-    © 2026 Major • Fortnite Performance
+  <footer class="text-center py-12 text-gray-400 text-sm relative z-10">
+
+    MAJOR © 2026 • Fortnite Performance System
+
   </footer>
 
   <script>
+
     function gerarRotina(){
 
-      const texto = document.getElementById("input").value.toLowerCase();
-      const resultado = document.getElementById("resultado");
+      const texto =
+      document.getElementById("input")
+      .value
+      .toLowerCase();
+
+      const resultado =
+      document.getElementById("resultado");
 
       let resposta = `
-        <h3 class="text-2xl font-bold mb-4 text-violet-300">
-          Rotina personalizada
-        </h3>
 
-        <div class="space-y-4 text-gray-200">
+      <div class="space-y-6">
+
+        <div>
+
+          <p class="text-violet-300 text-sm mb-2">
+            Análise concluída
+          </p>
+
+          <h3 class="text-3xl font-black">
+            Plano competitivo criado
+          </h3>
+
+        </div>
+
       `;
 
+      // IGL
       if(texto.includes("igl")){
 
         resposta += `
-          <div>
-            <h4 class="font-bold text-white">Treino IGL</h4>
-            <p>
-              • 30min vendo VOD competitiva<br>
-              • Treinar calls claras e rápidas<br>
-              • Trabalhar rotação e surge<br>
-              • Jogar scrim focando comunicação
-            </p>
-          </div>
+
+        <div class="glass rounded-2xl p-5">
+
+          <h4 class="text-xl font-bold mb-3">
+            Liderança competitiva
+          </h4>
+
+          <p class="text-gray-300 leading-relaxed">
+
+            Sua gameplay mostra dificuldade
+            em controle de lobby e confiança
+            durante momentos de pressão.
+
+            Seu foco deve ser:
+            leitura de zona,
+            tomada de decisão rápida,
+            comunicação limpa
+            e calls objetivas.
+
+          </p>
+
+        </div>
+
         `;
       }
 
+      // FRAGGER
       if(texto.includes("fragger")){
 
         resposta += `
-          <div>
-            <h4 class="font-bold text-white">Treino Fragger</h4>
-            <p>
-              • 1h de aim training<br>
-              • Piece control diário<br>
-              • Treino de peaks e pressure<br>
-              • Fight realistics
-            </p>
-          </div>
+
+        <div class="glass rounded-2xl p-5">
+
+          <h4 class="text-xl font-bold mb-3">
+            Performance de fragger
+          </h4>
+
+          <p class="text-gray-300 leading-relaxed">
+
+            Seu objetivo é aumentar pressão
+            em fights e melhorar confiança
+            em peaks agressivos.
+
+            Priorize:
+            mechanics,
+            piece control,
+            tracking
+            e leitura de movimentação.
+
+          </p>
+
+        </div>
+
         `;
       }
 
-      if(texto.includes("nervoso")){
+      // NERVOUS
+      if(
+        texto.includes("nervoso") ||
+        texto.includes("pressão")
+      ){
 
         resposta += `
-          <div>
-            <h4 class="font-bold text-white">Controle mental</h4>
-            <p>
-              • Evitar tilt após morrer<br>
-              • Jogar 1 partida focando calma<br>
-              • Respirar antes de fight importante<br>
-              • Pensar call por call
-            </p>
-          </div>
+
+        <div class="glass rounded-2xl p-5">
+
+          <h4 class="text-xl font-bold mb-3">
+            Controle mental
+          </h4>
+
+          <p class="text-gray-300 leading-relaxed">
+
+            Seu desempenho cai
+            quando a pressão aumenta.
+
+            A Major recomenda:
+            treinar scrims com foco emocional,
+            diminuir ansiedade pré-fight
+            e criar rotina de confiança
+            antes de campeonatos.
+
+          </p>
+
+        </div>
+
         `;
       }
 
       resposta += `
-        <div>
-          <h4 class="font-bold text-white">Motivação</h4>
-          <p>
-            Você não precisa virar um pro player em 1 dia.
-            Evolução competitiva é consistência.
-            Quem treina certo por meses passa quem só joga ranked.
-          </p>
-        </div>
-      `;
 
-      resposta += `</div>`;
+      <div class="glass rounded-2xl p-5">
+
+        <h4 class="text-xl font-bold mb-4">
+          Rotina diária recomendada
+        </h4>
+
+        <div class="space-y-3 text-gray-300">
+
+          <p>• 40min Aim Training</p>
+          <p>• 30min Piece Control</p>
+          <p>• 1h Scrim focando comunicação</p>
+          <p>• Revisão de VOD competitiva</p>
+          <p>• 10min treino mental</p>
+
+        </div>
+
+      </div>
+
+      <div class="glass rounded-2xl p-5">
+
+        <h4 class="text-xl font-bold mb-3">
+          Análise final da IA
+        </h4>
+
+        <p class="text-gray-300 leading-relaxed">
+
+          Você não precisa jogar 15 horas por dia.
+          O que separa players medianos
+          de players competitivos
+          é consistência, disciplina
+          e treino inteligente.
+
+          Continue evoluindo diariamente
+          e sua gameplay vai mudar completamente.
+
+        </p>
+
+      </div>
+
+      </div>
+
+      `;
 
       resultado.innerHTML = resposta;
       resultado.classList.remove("hidden");
+
     }
+
   </script>
 
 </body>
